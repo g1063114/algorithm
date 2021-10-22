@@ -1,13 +1,21 @@
 import java.util.*;
 
 class Main{
-    public List<String> solution(int n, String[] s){
-        List<String> answer = new ArrayList<>();
+    public int solution(int n, int m, int[] arr){
+        int answer = 0;
+        int sum = 0 ;
 
-        for( int i = 0 ; i < n; i++ ){
-            String temp = new StringBuilder(s[i]).reverse().toString();
-            answer.add(temp);
+        for( int i = 0 ; i < m; i++ ){
+            sum += arr[i];
         }
+        answer = sum;
+        for( int i = m; i < n; i++ ){
+            sum += (arr[i] - arr[i-m]);
+            if( sum > answer ){
+                answer = sum;
+            }
+        }
+
         return answer;
     }
 
@@ -15,12 +23,11 @@ class Main{
         Main T = new Main();
         Scanner kb = new Scanner(System.in);
         int n = kb.nextInt();
-        String[] arr = new String[n];
+        int m = kb.nextInt();
+        int[] arr = new int[n];
         for( int i = 0 ; i < n; i++ ){
-            arr[i] = kb.next();
+            arr[i] = kb.nextInt();
         }
-        for( String x : T.solution(n,arr)){
-            System.out.println(x);
-        }
+        System.out.print(T.solution(n,m,arr));
     }
 }
