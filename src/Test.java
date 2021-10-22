@@ -1,21 +1,20 @@
 import java.util.*;
 
 class Main{
-    public int solution(int n, int m, int[] arr){
-        int answer = 0;
-        int sum = 0 ;
+    public char solution(int n, String s){
+        char answer = ' ';
+        HashMap<Character, Integer> temp = new HashMap<>();
 
-        for( int i = 0 ; i < m; i++ ){
-            sum += arr[i];
+        for( char x : s.toCharArray() ){
+            temp.put(x, temp.getOrDefault(x,0) + 1);
         }
-        answer = sum;
-        for( int i = m; i < n; i++ ){
-            sum += (arr[i] - arr[i-m]);
-            if( sum > answer ){
-                answer = sum;
+        int max = 0;
+        for( char key : temp.keySet() ){
+            if(temp.get(key) > max ){
+                max = temp.get(key);
+                answer = key;
             }
         }
-
         return answer;
     }
 
@@ -23,11 +22,7 @@ class Main{
         Main T = new Main();
         Scanner kb = new Scanner(System.in);
         int n = kb.nextInt();
-        int m = kb.nextInt();
-        int[] arr = new int[n];
-        for( int i = 0 ; i < n; i++ ){
-            arr[i] = kb.nextInt();
-        }
-        System.out.print(T.solution(n,m,arr));
+        String s = kb.next();
+        System.out.print(T.solution(n,s));
     }
 }
