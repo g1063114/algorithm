@@ -1,23 +1,19 @@
 import java.util.*;
 
 class Solution {
-    public int solution(int left, int right) {
-        int answer = 0;
+    public int[] solution(int[] array, int[][] commands) {
+        int[] answer = {};
+        List<Integer> temp = new ArrayList<>();
+        answer = new int[commands.length];
 
-        for( int i = left; i <= right; i++ ){
-            int temp = 0;
-            for( int j = 1 ; j <= i; j++){
-                if( i % j == 0){
-                    temp++;
-                }
+        for( int i = 0 ; i < commands.length; i++ ){
+            for( int j = commands[i][0]-1; j <= commands[i][1] - 1; j++ ){
+                temp.add(array[j]);
             }
-            if( temp % 2 == 0){
-                answer += i;
-            }else{
-                answer -= i;
-            }
+            Collections.sort(temp);
+            answer[i] = temp.get(commands[i][2]-1);
+            temp.clear();
         }
-
         return answer;
     }
 }
