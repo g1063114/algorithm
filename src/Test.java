@@ -1,40 +1,44 @@
 import java.util.*;
 
 class Solution {
-    public int[] solution(String msg) {
-        int[] answer = {};
-        List<Integer> list = new ArrayList<>();
-        HashMap<String,Integer> map = new HashMap<>();
-        int idx = 1;
-        for( int i = 32; i <=57; i++ ){
-            map.put((char)i+"",idx);
-            idx++;
-        }
+    public String solution(String m, String[] musicinfos) {
+        String answer = "None";
+        int maxDur = -1;
 
-        boolean flag = false;
-        for( int i = 0 ; i < msg.length(); i++ ){
-            String temp = msg.charAt(i)+"";
+        for( int i = 0 ; i < musicinfos.length; i++ ){
+            String[] temp = musicinfos[i].split(",");
+            String[] time = temp[0].split(":");
+            int start = Integer.parseInt(time[0]) * 60 + Integer.parseInt(time[1]);
+            time = temp[1].split(":");
+            int end = Integer.parseInt(time[0]) * 60 + Integer.parseInt(time[1]);
+            int dur = end - start;
+            String title = temp[2];
+            String code = change(temp[3]);
 
-            while(map.containsKey(temp)){
-                i++;
-                if( i == msg.length()){
-                    flag = true;
-                    break;
+            if( dur > code.length() ) {
+                StringBuilder builder = new StringBuilder();
+                for (int j = 0; j < dur / code.length(); j++) {
+                    builder.append(code);
                 }
-                temp += msg.charAt(i);
+                builder.append(code.substring(0, dur % code.length()));
+                code = builder.toString();
+            }else{
+                code = code.substring(0,dur);
             }
-            if(flag){
-                list.add(map.get(temp));
-                break;
+            if(code.contains(m) && dur > maxDur){
+                answer = title;
+                maxDur = dur;
             }
-            list.add(map.get(temp.substring(0,temp.length()-1)));
-            map.put(temp,idx++);
-            i--;
-        }
-        answer = new int[list.size()];
-        for( int i = 0 ; i < list.size(); i++ ){
-            answer[i] = list.get(i);
         }
         return answer;
+    }
+    public String change(String s){
+        s.replaceAll("C#","H");
+        s.replaceAll("D#","I");
+        s.replaceAll("F#","J");
+        s.replaceAll("G#","K");
+        String str = s.replaceAll("A#","L");
+
+        return str;
     }
 }
