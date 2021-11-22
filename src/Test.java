@@ -1,44 +1,50 @@
 import java.util.*;
 
 class Solution {
-    public String solution(String m, String[] musicinfos) {
-        String answer = "None";
-        int maxDur = -1;
+    public int solution(String dirs) {
+        int answer = 0;
+        int curX = 0, curY = 0;
+        HashSet<String> temp = new HashSet<>();
 
-        for( int i = 0 ; i < musicinfos.length; i++ ){
-            String[] temp = musicinfos[i].split(",");
-            String[] time = temp[0].split(":");
-            int start = Integer.parseInt(time[0]) * 60 + Integer.parseInt(time[1]);
-            time = temp[1].split(":");
-            int end = Integer.parseInt(time[0]) * 60 + Integer.parseInt(time[1]);
-            int dur = end - start;
-            String title = temp[2];
-            String code = change(temp[3]);
+        for( int i = 0 ; i < dirs.length(); i++ ){
+            String path = "";
+            int nextX = curX;
+            int nextY = curY;
 
-            if( dur > code.length() ) {
-                StringBuilder builder = new StringBuilder();
-                for (int j = 0; j < dur / code.length(); j++) {
-                    builder.append(code);
-                }
-                builder.append(code.substring(0, dur % code.length()));
-                code = builder.toString();
+            if(dirs.charAt(i) == 'U'){
+                nextY++;
+                path += curX;
+                path += curY;
+                path += nextX;
+                path += nextY;
+            }else if(dirs.charAt(i) == 'D'){
+                nextY--;
+                path += nextX;
+                path += nextY;
+                path += curX;
+                path += curY;
+            }else if(dirs.charAt(i) == 'L'){
+                nextX--;
+                path += curX;
+                path += curY;
+                path += nextX;
+                path += nextY;
             }else{
-                code = code.substring(0,dur);
+                nextX++;
+                path += nextX;
+                path += nextY;
+                path += curX;
+                path += curY;
             }
-            if(code.contains(m) && dur > maxDur){
-                answer = title;
-                maxDur = dur;
+            if( nextX < -5 || nextX > 5 || nextY < -5 || nextY > 5){
+                continue;
             }
+            temp.add(path);
+            curX = nextX;
+            curY = nextY;
         }
+        answer = temp.size();
         return answer;
     }
-    public String change(String s){
-        s.replaceAll("C#","H");
-        s.replaceAll("D#","I");
-        s.replaceAll("F#","J");
-        s.replaceAll("G#","K");
-        String str = s.replaceAll("A#","L");
 
-        return str;
-    }
 }
