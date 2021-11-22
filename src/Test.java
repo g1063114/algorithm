@@ -1,38 +1,40 @@
+import java.util.*;
+
 class Solution {
-    public int rank(int num){
-        switch(num){
-            case 2:
-                return 5;
-            case 3:
-                return 4;
-            case 4:
-                return 3;
-            case 5:
-                return 2;
-            case 6:
-                return 1;
-            default:
-                return 6;
+    public int[] solution(String msg) {
+        int[] answer = {};
+        List<Integer> list = new ArrayList<>();
+        HashMap<String,Integer> map = new HashMap<>();
+        int idx = 1;
+        for( int i = 32; i <=57; i++ ){
+            map.put((char)i+"",idx);
+            idx++;
         }
-    }
-    public int[] solution(int[] lottos, int[] win_nums) {
-        int[] answer = new int[2];
-        int zero = 0;
-        int cnt = 0;
-        for( int i = 0 ; i < lottos.length; i++ ){
-            if( lottos[i] == 0 ){
-                zero++;
-            }
-            for( int j = 0 ; j < win_nums.length; j++ ){
-                if( lottos[i] == win_nums[j] ){
-                    cnt++;
+
+        boolean flag = false;
+        for( int i = 0 ; i < msg.length(); i++ ){
+            String temp = msg.charAt(i)+"";
+
+            while(map.containsKey(temp)){
+                i++;
+                if( i == msg.length()){
+                    flag = true;
+                    break;
                 }
+                temp += msg.charAt(i);
             }
+            if(flag){
+                list.add(map.get(temp));
+                break;
+            }
+            list.add(map.get(temp.substring(0,temp.length()-1)));
+            map.put(temp,idx++);
+            i--;
         }
-
-        answer[0] = rank(cnt+zero);
-        answer[1] = rank(cnt);
-
+        answer = new int[list.size()];
+        for( int i = 0 ; i < list.size(); i++ ){
+            answer[i] = list.get(i);
+        }
         return answer;
     }
 }
