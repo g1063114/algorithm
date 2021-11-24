@@ -1,16 +1,28 @@
 import java.util.*;
 
 class Solution {
-    public int solution(int[] people, int limit) {
-        int answer = 0;
-        int min = 0;
-        Arrays.sort(people);
+    public int[] solution(int[] prices) {
+        Queue<Integer> queue = new LinkedList<>();
+        int[] answer = new int[prices.length];
+        int time = 0;
+        int idx = 0;
+        for( int i = 0 ; i < prices.length; i++ ){
+            queue.add(prices[i]);
+        }
 
-        for( int max = people.length-1; min <= max; max--){
-            if( people[min] + people[max] <= limit ){
-                min++;
+        while(!queue.isEmpty()){
+            time = 0;
+            for( int i = idx+1 ; i < prices.length; i++ ){
+                if( queue.peek() <= prices[i] ){
+                    time++;
+                }else{
+                    time++;
+                    break;
+                }
             }
-            answer++;
+            queue.poll();
+            answer[idx] = time;
+            idx++;
         }
         return answer;
     }
@@ -19,12 +31,13 @@ class Solution {
     public static void main(String[] args) {
         Solution S = new Solution();
 
-        int[] temp = new int[4];
-        temp[0] = 70;
-        temp[1] = 50;
-        temp[2] = 80;
-        temp[3] = 50;
-        System.out.print(S.solution(temp,100));
+        int[] temp = new int[5];
+        temp[0] = 1;
+        temp[1] = 2;
+        temp[2] = 3;
+        temp[3] = 2;
+        temp[4] = 3;
+        System.out.print(S.solution(temp));
     }
 
 }
