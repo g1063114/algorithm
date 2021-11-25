@@ -1,28 +1,33 @@
 import java.util.*;
 
 class Solution {
-    public int[] solution(int[] prices) {
-        Queue<Integer> queue = new LinkedList<>();
-        int[] answer = new int[prices.length];
-        int time = 0;
-        int idx = 0;
-        for( int i = 0 ; i < prices.length; i++ ){
-            queue.add(prices[i]);
-        }
+    public int[] solution(int n, String[] words) {
+        int[] answer = new int[2];
+        List<String> temp = new ArrayList<>();
+        int num = 0;
+        int seq = 0;
+        boolean flag = true;
 
-        while(!queue.isEmpty()){
-            time = 0;
-            for( int i = idx+1 ; i < prices.length; i++ ){
-                if( queue.peek() <= prices[i] ){
-                    time++;
-                }else{
-                    time++;
-                    break;
-                }
+        for( int i = 0; i < words.length; i++ ){
+            if(temp.contains(words[i])){
+                num = i % n + 1;
+                seq = i / n + 1;
+                flag = false;
+                break;
             }
-            queue.poll();
-            answer[idx] = time;
-            idx++;
+            temp.add(words[i]);
+
+            if( words[i-1].charAt(words[i-1].length()-1) != words[i].charAt(0) ){
+                num = i % n + 1;
+                seq = i / n + 1;
+                flag = false;
+                break;
+            }
+        }
+        answer[0] = num;
+        answer[1] = seq;
+        if( flag ){
+            return new int[]{0,0};
         }
         return answer;
     }
@@ -31,13 +36,15 @@ class Solution {
     public static void main(String[] args) {
         Solution S = new Solution();
 
-        int[] temp = new int[5];
-        temp[0] = 1;
-        temp[1] = 2;
-        temp[2] = 3;
-        temp[3] = 2;
-        temp[4] = 3;
-        System.out.print(S.solution(temp));
+        String[] temp = new String[7];
+        temp[0] = "hello";
+        temp[1] = "one";
+        temp[2] = "even";
+        temp[3] = "never";
+        temp[4] = "now";
+        temp[5] = "world";
+        temp[6] = "draw";
+        System.out.print(S.solution(2,temp));
     }
 
 }
