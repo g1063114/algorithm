@@ -1,29 +1,32 @@
 import java.util.*;
 
 class Solution {
-    public String solution(String number, int k) {
-        String answer = "";
-        StringBuilder temp = new StringBuilder();
-        int index = 0;
-        int max = Integer.MIN_VALUE;
-        for( int i = 0 ; i < number.length() - k; i++ ){
-            max = 0;
-            for(int j = index; j < k+i; j++ ){
-                if(max < number.charAt(j)-'0'){
-                    max = number.charAt(j)-'0';
-                    index = j+1;
-                }
+    public int[] solution(int brown, int yellow) {
+        int[] answer = new int[2];
+        int area = brown + yellow;
+
+        for( int i = 1 ; i <= area; i++ ){
+            int row = i;
+            int col = area / row;
+
+            if( row > col ){
+                continue;
             }
-            temp.append(max);
+
+            if( (row - 2) * (col - 2) == yellow ){
+                answer[0] = col;
+                answer[1] = row;
+
+                return answer;
+            }
         }
-        return temp.toString();
+        return answer;
     }
 
     public static void main(String[] args) {
         Solution S = new Solution();
 
-        String number = "4177252841";
-        System.out.print(S.solution(number,4));
+        System.out.print(S.solution(10,2));
     }
 
 }
