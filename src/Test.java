@@ -46,8 +46,8 @@ class Solution {
 
     public static void main(String[] args) {
         Solution S = new Solution();
-        int[] properties = {2,1,3,2};
-        int location = 2;
+        int[] properties = {1,1,9,1,1,1,1};
+        int location = 0;
 
         System.out.print(S.solution(properties,location));
     }
