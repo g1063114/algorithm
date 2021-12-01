@@ -1,55 +1,34 @@
 import java.util.*;
 
 class Solution {
-    class Pair{
-        public int idx;
-        public int val;
 
-        public Pair(int idx, int val) {
-            this.idx = idx;
-            this.val = val;
-        }
-    }
+    public String solution(int[] numbers) {
+        String answer = "";
+        String[] temp = new String[numbers.length];
 
-    public int solution(int[] properties, int location) {
-        int answer = 0;
-        Queue<Pair> queue = new LinkedList<>();
-
-        for( int i = 0 ; i < properties.length; i++ ){
-            queue.add(new Pair(i,properties[i]));
+        for( int i = 0 ; i < numbers.length; i++ ){
+            temp[i] = numbers[i]+"";
         }
 
-        while(!queue.isEmpty()){
-            int cur = queue.peek().val;
-            boolean flag = false;
-            for( Pair p : queue ){
-                if(p.val > cur){
-                    flag = true;
-                    break;
-                }
+        Arrays.sort(temp, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return (o2+o1).compareTo(o1+o2);
             }
-            if( flag ){
-                Pair temp = queue.poll();
-                queue.add(temp);
-            }else{
-                answer++;
-                Pair temp = queue.poll();
-                if( temp.idx == location ){
-                    return answer;
-                }
-            }
+        });
+        if(temp[0].equals("0")) return "0";
+
+        for( String s : temp ){
+            answer+=s;
         }
-
-
         return answer;
     }
 
     public static void main(String[] args) {
         Solution S = new Solution();
-        int[] properties = {1,1,9,1,1,1,1};
-        int location = 0;
+        int[] numbers = {6,10,2};
 
-        System.out.print(S.solution(properties,location));
+        System.out.print(S.solution(numbers));
     }
 
 }
