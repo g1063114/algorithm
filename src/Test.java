@@ -2,33 +2,37 @@ import java.util.*;
 
 class Solution {
 
-    public String solution(int[] numbers) {
-        String answer = "";
-        String[] temp = new String[numbers.length];
+    public int solution(int n, int a, int b) {
+        int answer = 1;
+        int left = 0 ;
+        int right = 0;
 
-        for( int i = 0 ; i < numbers.length; i++ ){
-            temp[i] = numbers[i]+"";
+        if( a > b ){
+            left = b;
+            right = a;
+        }else{
+            left = a;
+            right = b;
         }
 
-        Arrays.sort(temp, new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return (o2+o1).compareTo(o1+o2);
+        while(true){
+            if( left % 2 !=0 && right - left == 1 ){
+                break;
             }
-        });
-        if(temp[0].equals("0")) return "0";
-
-        for( String s : temp ){
-            answer+=s;
+            left = (left+1)/2;
+            right = (right+1)/2;
+            answer++;
         }
         return answer;
     }
 
     public static void main(String[] args) {
         Solution S = new Solution();
-        int[] numbers = {6,10,2};
+        int n = 8;
+        int a = 4;
+        int b = 7;
 
-        System.out.print(S.solution(numbers));
+        System.out.print(S.solution(n,a,b));
     }
 
 }
