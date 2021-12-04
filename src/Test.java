@@ -1,27 +1,33 @@
 import java.util.*;
 
 class Solution {
-    public String solution(int n) {
-        String answer = "";
-        String[] numbers = {"4","1","2"};
+    public int solution(int[] scoville, int k) {
+        int answer = 0;
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
 
-        while(n > 0){
-            int rem = n % 3;
-            n /= 3;
+        for( int x : scoville ){
+            pq.add(x);
+        }
 
-            if( rem == 0 ){
-                n--;
+        while(pq.peek() < k){
+            if(pq.size() < 2){
+                return -1;
             }
+            int temp1 = pq.poll();
+            int temp2 = pq.poll();
 
-            answer = numbers[rem] + answer;
+            int newScoville = temp1 + temp2 * 2;
+            pq.add(newScoville);
+            answer++;
         }
         return answer;
     }
 
     public static void main(String[] args) {
         Solution S = new Solution();
-        int n = 4;
-        System.out.print(S.solution(n));
+        int[] scoville = {1,2,3,9,10,12};
+        int k = 7;
+        System.out.print(S.solution(scoville,k));
     }
 
 }
