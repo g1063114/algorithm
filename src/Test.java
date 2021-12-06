@@ -5,15 +5,27 @@ class Solution {
         Scanner sc = new Scanner(System.in);
 
         int n = sc.nextInt();
+        int m = sc.nextInt();
+        boolean[] prime = new boolean[m+1];
 
-        for( int i = 2; i <= Math.sqrt(n); i++ ){
-            while( n % i == 0 ){
+        checkPrime(prime);
+
+        for( int i = n; i <= m; i++ ){
+            if( !prime[i] ){
                 System.out.println(i);
-                n /= i;
             }
         }
-        if( n != 1 ){
-            System.out.println(n);
+    }
+
+    public static void checkPrime(boolean[] prime){
+        prime[0] = true;
+        prime[1] = true;
+
+        for( int i = 2; i < Math.sqrt(prime.length); i++ ){
+            if( prime[i] ) continue;
+            for( int j = i*i; j < prime.length; j+=i ){
+                prime[j] = true;
+            }
         }
     }
 }
