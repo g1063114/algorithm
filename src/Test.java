@@ -4,20 +4,24 @@ class Solution {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        boolean[] prime = new boolean[246913];
+        boolean[] prime = new boolean[10001];
 
-        while(true){
-            int n = sc.nextInt();
-            if( n == 0 ) break;
-            int cnt = 0;
-            checkPrime(prime);
+        int n = sc.nextInt();
 
-            for( int i = n ; i <= 2*n; i++ ){
-                if( !prime[i] ){
-                    cnt++;
+        checkPrime(prime);
+        for( int i = 0 ; i < n; i++ ){
+            int t = sc.nextInt();
+            int left = t / 2;
+            int right = t / 2;
+
+            while(true){
+                if(!prime[left] && !prime[right]){
+                    System.out.println(left + " " + right);
+                    break;
                 }
+                left--;
+                right++;
             }
-            System.out.println("cnt = " + cnt);
         }
     }
 
